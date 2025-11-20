@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.temporal:temporal-sdk:1.22.0'
+    implementation 'org.apache.kafka:kafka-clients:3.6.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
+    implementation 'redis.clients:jedis:5.0.0'
+}
+
+application {
+    mainClass = 'com.example.bpm.BpmWorker'
+}
+
+task runWorker(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.example.bpm.BpmWorker'
+}
+
+task runConsumer(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.example.bpm.KafkaConsumerApp'
+}
+
+task runProducer(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.example.bpm.KafkaProducerApp'
+}
